@@ -21,6 +21,9 @@ window.onload = function() {
   var trail = [] // = rastro
   tail = 5 // tamanho da cauda
 
+  //direction
+  var direction = up
+
   function game() {
     px += vx
     py += vy
@@ -104,45 +107,69 @@ window.onload = function() {
 
   function keyPush(event) {
     switch (event.keyCode) {// →↓↑←
-      case 37||65: //left
-        vx = -vel
-        vy = 0
+      case 37: //left
+        if (direction != 'right'){
+          vx = -vel
+          vy = 0
+          direction = 'left'
+        }
         break;
-      case 38||87: //up
-        vx = 0
-        vy = -vel
+
+      case 38: //up
+        if (direction != 'down'){
+          vx = 0
+          vy = -vel,
+          direction = 'up'
+        }
         break;
-      case 39||68: //right
-        vx = vel
-        vy = 0
+
+      case 39: //right
+        if (direction != 'left'){
+          vx = vel
+          vy = 0
+          direction = 'right'
+        }
         break;
-      case 40||83: //down
-        vx = 0
-        vy = vel
+        
+      case 40: //down
+        if (direction != 'up'){
+          vx = 0
+          vy = vel
+          direction = 'down'
+        }
         break;
     
       default:
         break;
     }
-    switch (event.keyCode) {// WASD
+    switch (event.keyCode) {// WASD =================
       case 65: //left
-        vx = -vel
-        vy = 0
+        if (direction != 'right'){
+          vx = -vel
+          vy = 0
+          direction = 'left'
+        }
         break;
       case 87: //up
-        vx = 0
-        vy = -vel
+        if (direction != 'down'){
+          vx = 0
+          vy = -vel,
+          direction = 'up'
+        }
         break;
       case 68: //right
-        vx = vel
-        vy = 0
+        if (direction != 'left'){
+          vx = vel
+          vy = 0
+          direction = 'right'
+        }
         break;
       case 83: //down
-        vx = 0
-        vy = vel
-        break;
-    
-      default:
+        if (direction != 'up'){
+          vx = 0
+          vy = vel
+          direction = 'down'
+        }
         break;
     }
   }
@@ -153,18 +180,22 @@ window.onload = function() {
         case '←': //left
           vx = -vel
           vy = 0
+          direction = 'left'
           break;
-        case '↑': //up
+          case '↑': //up
           vx = 0
           vy = -vel
+          direction = 'up'
           break;
-        case '→': //right
+          case '→': //right
           vx = vel
           vy = 0
+          direction = 'right'
           break;
-        case '↓': //down
+          case '↓': //down
           vx = 0
           vy = vel
+          direction = 'down'
           break;
       
         default:
