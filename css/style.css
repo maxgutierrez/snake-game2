@@ -1,0 +1,16 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+html , body {
+  background-color: rgb(34, 34, 34);
+  text-align: center;
+}
+
+
+button {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  margin: 0 auto;
+}
