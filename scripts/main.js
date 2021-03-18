@@ -1,21 +1,24 @@
 // add pontuaçao e hanking
 window.onload = function() {
+  
   const bouttons = document.querySelectorAll('button')
+  const score = document.querySelector('#score')
 
   const stage = document.querySelector('#stage')
   if (stage.getContext) {
     var ctx = stage.getContext('2d');
   }  
   document.addEventListener('keydown', keyPush)
-  setInterval(game, 50); // taxa de att do game()
-  const vel = 0.5
-  var vx = 0
-  var vy = -0.5 // vel xy
+  setInterval(game, 300); // taxa de att do game()
+
+  const vel = 1
+  var vx = 0 // vel x
+  var vy = -1 // vel y
   var px = 10 // pos x
   var py = 10 // pos y
-  var pr = 14
-  var tp = 20 // tamanho peças (tabuleiro)
-  var qp = 20 // quantidade de peças (tabuleiro)
+  var pr = 14 // radius
+  var tp = 10 // tamanho peças (tabuleiro)
+  var qp = 40 // quantidade de peças (tabuleiro)
   var ax = 10
   var ay = 19 // apple xy
   var trail = [] // = rastro
@@ -27,10 +30,12 @@ window.onload = function() {
   function game() {
     px += vx
     py += vy
+
+    //relaçao com as paredes
     if (px < 0) {
       px = qp-1
     }
-    if (px > qp-1) { // se cabeçao estiver em uyma pos > que o tamanho do tabuleiro
+    if (px > qp-1) { // se cabeça estiver em uyma pos > que o tamanho do tabuleiro
       px = 0
     }
     if (py < 0) {
@@ -61,11 +66,11 @@ window.onload = function() {
       ctx.stroke()
       ctx.fillRect(trail[i].x*tp , trail[i].y*tp, tp, tp) 
 
-      var imagem = new Image();
-      imagem.src = "/img/imagem.png";
-      imagem.onload = function() {
-        ctx.drawImage(imagem, trail[trail.length-1].x*tp-5 , trail[trail.length-1].y*tp-5, 30, 30);
-      }      
+      // var imagem = new Image();
+      // imagem.src = "/img/imagem.png";
+      // imagem.onload = function() {
+      //   ctx.drawImage(imagem, trail[trail.length-1].x*tp-5 , trail[trail.length-1].y*tp-5, 30, 30);
+      // }      
       
       // ctx.beginPath();// ROSTINHO DESENHADO
       // ctx.arc(trail[trail.length-1].x*tp+10 , trail[trail.length-1].y*tp+10, 10, 0, Math.PI * 2, true); // Círculo exterior
@@ -91,17 +96,23 @@ window.onload = function() {
       trail.shift()
     }
 
-    if (
+    if (// comer
       ax==px && ay==py ||
-      ax==px+0.5 && ay==py ||
-      ax==px-0.5 && ay==py ||
-      ax==px && ay==py+0.5 ||
-      ax==px && ay==py-0.5
+      ax==px+1 && ay==py ||
+      ax==px-1 && ay==py ||
+      ax==px && ay==py+1 ||
+      ax==px && ay==py-1 ||
+
+      ax==px+2 && ay==py ||
+      ax==px-2 && ay==py ||
+      ax==px && ay==py+2 ||
+      ax==px && ay==py-2
       ){ // se comer
       tail+= 2
       const x = y = Math.floor(Math.random()* qp)
       ax = x
       ay = y
+      score.innerHTML = tail -5
     }
   }
 
@@ -178,24 +189,32 @@ window.onload = function() {
     btn.addEventListener('click', ()=> {
       switch (btn.innerHTML) {// WASD
         case '←': //left
+        if (direction != 'right'){
           vx = -vel
           vy = 0
           direction = 'left'
+        }
           break;
           case '↑': //up
-          vx = 0
-          vy = -vel
-          direction = 'up'
+            if (direction != 'down'){
+              vx = 0
+              vy = -vel,
+              direction = 'up'
+            }
           break;
           case '→': //right
-          vx = vel
-          vy = 0
-          direction = 'right'
+            if (direction != 'left'){
+              vx = vel
+              vy = 0
+              direction = 'right'
+            }
           break;
           case '↓': //down
-          vx = 0
-          vy = vel
-          direction = 'down'
+            if (direction != 'up'){
+              vx = 0
+              vy = vel
+              direction = 'down'
+            }
           break;
       
         default:
